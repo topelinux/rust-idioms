@@ -149,8 +149,8 @@ mod tests {
     //impl FileReaderIter for Args {}
     impl FileReaderIter for MyTest {}
 
-    fn assert_check_content<T: AsRef<str>>(t: T) {
-        assert_eq!(t.as_ref(), "hello rust\n");
+    fn assert_check_content<T: AsRef<str>, T1: AsRef<str>>(e: T, r: T1) {
+        assert_eq!(e.as_ref(), r.as_ref());
     }
     #[test]
     fn test_trait_obj() {
@@ -160,7 +160,7 @@ mod tests {
         let trait_obj: &mut dyn FileReaderIter = &mut my_test;
 
         if let Err(err) = trait_obj.read_nth(0).and_then(|content| {
-            assert_check_content(content);
+            assert_check_content("hello rust\n", content);
             Ok(())
         }) {
             println!("err is {:?}", err);
